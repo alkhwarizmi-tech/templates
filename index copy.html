@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3.0">
+  <title>jjung</title>
+  <link rel="stylesheet" href="style.css">
+  <style type="text/css"></style>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+  <script type="text/javascript" src="script.js"></script>
+  <link href="assets/css/output.css" rel="stylesheet">
+
+  <script type="text/javascript"></script>
+  <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css'>
+  <link rel='stylesheet' href='https://mreq.github.io/slick-lightbox/dist/slick-lightbox.css'>
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Montserrat:700|Space+Mono'>
+  <!-- 제이쿼리 불러오기 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!-- slick불러오기 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css">
+
+
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@200;300;400;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Space+Mono&display=swap');
+
+
+
+    /**/
+
+
+
+
+    .slides-nav {
+      z-index: 99;
+      position: absolute;
+      right: -5%;
+      display: flex;
+      -webkit-box-align: center;
+      align-items: center;
+      height: 850px;
+      color: #111;
+    }
+
+    .slides-nav {
+      right: 2%;
+    }
+
+    .slides-nav__nav {
+      position: relative;
+      right: 0;
+      display: block;
+      font-size: 1rem;
+      transform: rotate(90deg);
+      transform-origin: center;
+    }
+
+    .slides-nav button {
+      position: relative;
+      display: inline-block;
+      padding: 0.35rem;
+      margin: 0;
+      font-family: "Space Mono", monospace;
+      appearance: none;
+      background: transparent;
+      border: 0;
+      overflow-x: hidden;
+      transition: color 0.5s ease;
+    }
+
+    .slides-nav button:after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      height: 1px;
+      width: 0;
+      background: #111;
+      transition: width 0.4s ease;
+    }
+
+    .slides-nav button:hover {
+      cursor: pointer;
+      color: rgba(17, 17, 17, 0.75);
+      transition: color 0.5s ease;
+    }
+
+    .slides-nav button:hover:after {
+      width: 100%;
+      transition: width 0.4s ease;
+    }
+
+    .slides-nav button:focus {
+      outline: 0;
+    }
+
+    .is-sliding .slides-nav {
+      pointer-events: none;
+    }
+
+    .slides {
+      position: relative;
+      display: block;
+      height: 850px;
+      width: 100%;
+      background: #eee;
+      transition: background 1s cubic-bezier(0.99, 1, 0.92, 1);
+    }
+
+    .is-sliding .slides {
+      background: #ededed;
+      transition: background 0.3s cubic-bezier(0.99, 1, 0.92, 1);
+    }
+
+    .slide {
+      z-index: -1;
+      padding: 0;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      transition: z-index 1s ease;
+    }
+
+    .slide.is-active {
+      z-index: 19;
+      transition: z-index 1s ease;
+    }
+
+    .slide__content {
+      position: relative;
+      margin: 0 auto;
+      height: 95%;
+      width: 95%;
+      top: 2.5%;
+    }
+
+    .slide__content {
+      height: 80%;
+      width: 80%;
+      top: 10%;
+      left: 5%;
+    }
+
+    .slide__header {
+      z-index: 9;
+      position: relative;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      overflow-y: hidden;
+      transform: translateX(5%);
+    }
+
+    .slide__header {
+      transform: translateX(-5%);
+    }
+
+    .slide__title {
+      font-family: Montserrat, helvetica;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #111;
+      overflow-y: hidden;
+    }
+
+    .slide__title {
+      font-size: 3.5rem;
+      line-height: 4.5rem
+    }
+
+    .slide__title .title-line {
+      display: block;
+      overflow-y: hidden;
+    }
+
+    .mainfont {
+      font-family: 'Source Serif Pro', serif;
+      font-weight: 300;
+    }
+
+    .confont {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 300;
+      letter-spacing: -0.5px;
+      font-size: 1rem;
+      line-height: 1.4rem;
+    }
+
+    .slide__title .title-line span {
+      display: inline-block;
+      transform: translate3d(0, 140%, 0);
+      opacity: 0;
+      transition: transform 0.4s ease, opacity 0.8s ease;
+    }
+
+    .slide__title .title-line span:nth-child(1) {
+      transition-delay: 0.15s;
+    }
+
+    .slide__title .title-line span:nth-child(2) {
+      transition-delay: 0.3s;
+    }
+
+    .is-active .slide__title .title-line span {
+      transform: translate3d(0, 0%, 0);
+      opacity: 1;
+      transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.1s ease;
+    }
+
+    .is-active .slide__title .title-line:nth-of-type(2n) span {
+      transition-delay: 0.2s;
+    }
+
+    .slide__figure {
+      z-index: 7;
+      position: absolute;
+      right: 7%;
+      bottom: 10%;
+      margin: 0 auto;
+      height: 90%;
+      width: 60%;
+      -webkit-transition: -webkit-transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+      transition: -webkit-transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+      transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+      transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1), -webkit-transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    .is-sliding .slide__figure {
+      -webkit-transform: scale(0.8);
+      transform: scale(0.8);
+      -webkit-transition: -webkit-transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+      transition: -webkit-transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+      transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+      transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1), -webkit-transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    .slide__img {
+      position: relative;
+      display: block;
+      background-size: cover;
+      background-position: center center;
+      -webkit-backface-visibility: hidden;
+      height: 100%;
+      width: 100%;
+      -webkit-filter: grayscale(0%);
+      filter: grayscale(0%);
+      -webkit-transition: height 1s 1.4s cubic-bezier(0.19, 1, 0.22, 1), -webkit-filter 0.4s 0.1s ease;
+      transition: height 1s 1.4s cubic-bezier(0.19, 1, 0.22, 1), -webkit-filter 0.4s 0.1s ease;
+      transition: height 1s 1.4s cubic-bezier(0.19, 1, 0.22, 1), filter 0.4s 0.1s ease;
+      transition: height 1s 1.4s cubic-bezier(0.19, 1, 0.22, 1), filter 0.4s 0.1s ease, -webkit-filter 0.4s 0.1s ease;
+    }
+
+    .is-active .slide__img {
+      height: 100%;
+      opacity: 1;
+      -webkit-transition: height 0.5s 0.3s cubic-bezier(0.77, 0, 0.175, 1), -webkit-filter 0.4s 0.1s ease;
+      transition: height 0.5s 0.3s cubic-bezier(0.77, 0, 0.175, 1), -webkit-filter 0.4s 0.1s ease;
+      transition: height 0.5s 0.3s cubic-bezier(0.77, 0, 0.175, 1), filter 0.4s 0.1s ease;
+      transition: height 0.5s 0.3s cubic-bezier(0.77, 0, 0.175, 1), filter 0.4s 0.1s ease, -webkit-filter 0.4s 0.1s ease;
+    }
+
+    .is-sliding .slide__img {
+      -webkit-filter: grayscale(100%);
+      filter: grayscale(100%);
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <div></div>
+    <section class="slides">
+      <section class="slides-nav">
+        <nav class="slides-nav__nav">
+          <button class="slides-nav__prev js-prev">Prev</button>
+          <button class="slides-nav__next js-next">Next</button>
+        </nav>
+      </section>
+      <section class="slide is-active">
+        <div class="slide__content">
+          <figure class="slide__figure">
+            <div class="slide__img"
+              style="background-image: url(https://images.ctfassets.net/8cd2csgvqd3m/5boL2OSLebEvXIxAgLbHvj/2b5aefc3b237b6554f5980cfc455766b/H4_GG_5.jpg?q=90&fm=webp&w=720)">
+            </div>
+          </figure>
+          <header class="slide__header">
+            <h2 class="slide__title">
+              <span class="title-line mainfont"><span>Bring Beauty</span></span>
+              <span class="title-line mainfont"><span>To The Moment</span></span>
+              <span class="title-line confont"><span>Contemporary over-ear headphones with<br> long-lasting comfort,
+                  superior sound and voice assistant.</span></span>
+              <span class="title-line confont"><span><button class="button type2">Learn More</button></span></span>
+
+            </h2>
+          </header>
+        </div>
+      </section>
+      <section class="slide">
+        <div class="slide__content">
+          <figure class="slide__figure">
+            <div class="slide__img"
+              style="background-image: url(https://images.ctfassets.net/8cd2csgvqd3m/452Kd2x9boe6SZHnbtPUe9/d6607872560f28491d1a48e2b7dfa707/H4_GG_1.jpg?q=90&fm=webp&w=720)">
+            </div>
+          </figure>
+          <header class="slide__header">
+            <h2 class="slide__title">
+              <span class="title-line mainfont"><span>Let The Real</span></span>
+              <span class="title-line mainfont"><span>World In</span></span>
+              <span class="title-line confont"><span><i>For those who want the best audio <br>possible in fully wireless
+                    buds, these are the ones to get."</i></span></span>
+              <span class="title-line confont"><span><button class="button type2">Learn More</button></span></span>
+
+            </h2>
+          </header>
+        </div>
+      </section>
+      <section class="slide">
+        <div class="slide__content">
+          <figure class="slide__figure">
+            <div class="slide__img"
+              style="background-image: url(https://images.ctfassets.net/8cd2csgvqd3m/3xZT10Afn8EXn6xxEfMmf8/4d342f444eac8227aef5e13f5f1a3a75/GG_H9.jpg?q=90&fm=webp&w=720)">
+            </div>
+          </figure>
+          <header class="slide__header">
+            <h2 class="slide__title">
+              <span class="title-line mainfont"><span>Not Just For</span></span>
+              <span class="title-line mainfont"><span>Listening</span></span>
+              <span class="title-line confont"><span><i>For those who want the best audio <br>possible in fully wireless
+                    buds, these are the ones to get."</i></span></span>
+              <span class="title-line confont"><span><button class="button type2">Learn More</button></span></span>
+
+            </h2>
+          </header>
+        </div>
+      </section>
+      <section class="slide">
+        <div class="slide__content">
+          <figure class="slide__figure">
+            <div class="slide__img"
+              style="background-image: url(https://images.ctfassets.net/8cd2csgvqd3m/AysUUbK4cvgKrztNDRLrn/9606ee6126deb1dc8f6e5c4e65539e2e/E83_new_1.jpg?q=90&fm=webp&w=720)">
+            </div>
+          </figure>
+          <header class="slide__header">
+            <h2 class="slide__title">
+              <span class="title-line mainfont"><span>Go further.</span></span>
+              <span class="title-line mainfont"><span>Part Four More</span></span>
+              <span class="title-line confont"><span><i>For those who want the best audio <br>possible in fully wireless
+                    buds, these are the ones to get."</i></span></span>
+              <span class="title-line confont"><span><button class="button type2">Learn More</button></span></span>
+
+            </h2>
+
+          </header>
+        </div>
+      </section>
+
+    </section>
+  </main>
+
+
+
+
+  <!-- 메인슬라이드 -->
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+  <script id="rendered-js">
+    (function ($) {
+      var SliceSlider = {
+        /**
+         * Settings Object
+         */
+        settings: {
+          delta: 0,
+          currentSlideIndex: 0,
+          scrollThreshold: 40,
+          slides: $('.slide'),
+          numSlides: $('.slide').length,
+          navPrev: $('.js-prev'),
+          navNext: $('.js-next'),
+        },
+
+        /**
+         * Init
+         */
+        init: function () {
+          s = this.settings;
+          this.bindEvents();
+        },
+
+        /**
+         * Bind our click, scroll, key events
+         */
+        bindEvents: function () {
+
+          // Scrollwheel & trackpad
+          s.slides.on({
+            'DOMMouseScroll mousewheel': SliceSlider.handleScroll
+          });
+          // On click prev
+          s.navPrev.on({
+            'click': SliceSlider.prevSlide
+          });
+          // On click next
+          s.navNext.on({
+            'click': SliceSlider.nextSlide
+          });
+          // On Arrow keys
+          $(document).keyup(function (e) {
+            // Left or back arrows
+            if ((e.which === 37) || (e.which === 38)) {
+              SliceSlider.prevSlide();
+            }
+            // Down or right
+            if ((e.which === 39) || (e.which === 40)) {
+              SliceSlider.nextSlide();
+            }
+          });
+        },
+
+        /**
+         * Interept scroll direction
+         */
+        handleScroll: function (e) {
+
+          // Scrolling up
+          if (e.originalEvent.detail < 0 || e.originalEvent.wheelDelta > 0) {
+
+            s.delta--;
+
+            if (Math.abs(s.delta) >= s.scrollThreshold) {
+              SliceSlider.prevSlide();
+            }
+          }
+
+          // Scrolling Down
+          else {
+
+            s.delta++;
+
+            if (s.delta >= s.scrollThreshold) {
+              SliceSlider.nextSlide();
+            }
+          }
+
+          // Prevent page from scrolling
+          return true;
+        },
+
+        /**
+         * Show Slide
+         */
+        showSlide: function () {
+          // reset
+          s.delta = 0;
+          // Bail if we're already sliding
+          if ($('body').hasClass('is-sliding')) {
+            return;
+          }
+          // Loop through our slides
+          s.slides.each(function (i, slide) {
+
+            // Toggle the is-active class to show slide
+            $(slide).toggleClass('is-active', (i === s.currentSlideIndex));
+            $(slide).toggleClass('is-prev', (i === s.currentSlideIndex - 1));
+            $(slide).toggleClass('is-next', (i === s.currentSlideIndex + 1));
+
+            // Add and remove is-sliding class
+            $('body').addClass('is-sliding');
+
+            setTimeout(function () {
+              $('body').removeClass('is-sliding');
+            }, 700);
+          });
+        },
+
+        /**
+         * Previous Slide
+         */
+        prevSlide: function () {
+
+          // If on first slide, loop to last
+          if (s.currentSlideIndex <= 0) {
+            s.currentSlideIndex = s.numSlides;
+          }
+          s.currentSlideIndex--;
+
+          SliceSlider.showSlide();
+        },
+
+        /**
+         * Next Slide
+         */
+        nextSlide: function () {
+
+          s.currentSlideIndex++;
+
+          // If on last slide, loop to first
+          if (s.currentSlideIndex >= s.numSlides) {
+            s.currentSlideIndex = 0;
+          }
+
+          SliceSlider.showSlide();
+        },
+      };
+      SliceSlider.init();
+    })(jQuery);
+  </script>
+</body>
+
+</html>
